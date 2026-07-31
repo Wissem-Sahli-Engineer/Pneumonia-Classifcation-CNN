@@ -43,3 +43,18 @@ def classify(model, img , diseases):
 
     return results
 
+
+def is_valid_xray(img, max_color_std=12.0):
+    """
+    Checks if an image is grayscale/monochrome like a real X-Ray.
+    Returns True if valid X-ray, False if it's a regular color photo.
+    """
+    img = np.array(img)
+    
+    # Extract R, G, B channels
+    r, g, b = img[:, :, 0], img[:, :, 1], img[:, :, 2]
+    
+    # Measure color difference between channels
+    color_diff = np.mean(np.abs(r - g) + np.abs(g - b) + np.abs(b - r))
+    
+    return color_diff < max_color_std

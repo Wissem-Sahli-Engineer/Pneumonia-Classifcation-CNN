@@ -3,11 +3,11 @@ import streamlit as st
 import tensorflow as tf
 # pyrefly: ignore [missing-import]
 from PIL import Image
-from utils import classify
+from utils import classify , is_valid_xray
 
-"""
-source .venv/bin/activate && streamlit run main.py
-"""
+
+# source .venv/bin/activate && streamlit run main.py
+
 # App Tittle
 st.title("Lunges Diseases Classficiation")
 
@@ -35,13 +35,16 @@ DISEASE_CLASSES = [
 # Display Image
 if file is not None :
     img = Image.open(file).convert('RGB')
-    st.image(img, use_column_width = True)
+    st.image(img)
 
-    with st.spinner("Analyzing X-Ray..."):
-        results = classify(model, img, DISEASE_CLASSES)
+    if not is_valid_xray(img):
+        st.error("⚠️ Invalid Image! Please upload a valid grayscale Chest X-Ray image.")
+    else:
+        with st.spinner("Analyzing X-Ray..."):
+            results = classify(model, img, DISEASE_CLASSES)
 
-    # Display prediction results
-    st.subheader("Diagnostic Probabilities:")
-    for disease, prob in results:
-        st.write(f"**{disease}**: {prob * 100:.1f}%")
-        st.progress(float(prob))
+        # Display prediction results
+        st.subheader("Diagnostic Probabilities:")
+        for disease, prob in results:
+            st.write(f"**{disease}**: {prob * 100:.1f}%")
+            st.progress(float(prob))
