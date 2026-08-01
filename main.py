@@ -1,9 +1,12 @@
+from tensorflow.keras.models import load_model
+# pyrefly: ignore [missing-import]
+from tensorflow.keras.preprocessing import image
 # pyrefly: ignore [missing-import]
 import streamlit as st
 import tensorflow as tf
 # pyrefly: ignore [missing-import]
 from PIL import Image
-from utils import classify , is_valid_xray
+from utils import classify , predict_if_cxr
 
 
 # source .venv/bin/activate && streamlit run main.py
@@ -18,13 +21,14 @@ st.header("Please upload a chest X-Ray image")
 file = st.file_uploader('',type=["jpeg","jpg","png","webp","svg","gif"])
 
 # Caching the model so Streamlit doesn't reload it on every button click
-MODEL_PATH = "models/best_xray_model.keras"
+MODEL_PATH_CLASSIFIER = "models/best_xray_model.keras"
+MODEL_PATH_DETECTOR = "models/chest_xray_detector.h5"
 
 @st.cache_resource
 def load_my_model():
-    return tf.keras.models.load_model(MODEL_PATH)
+    return (tf.keras.models.load_model(MODEL_PATH_CLASSIFIER), load_model(MODEL_PATH_DETECTOR))
 
-model = load_my_model()
+classifier ,  detector = load_my_model()
 
 DISEASE_CLASSES = [
     'Atelectasis', 'Cardiomegaly', 'Effusion', 'Infiltration', 'Mass', 
@@ -37,11 +41,13 @@ if file is not None :
     img = Image.open(file).convert('RGB')
     st.image(img)
 
-    if not is_valid_xray(img):
+
+
+    if not predict_if_cxr(img,detector):
         st.error("⚠️ Invalid Image! Please upload a valid grayscale Chest X-Ray image.")
     else:
         with st.spinner("Analyzing X-Ray..."):
-            results = classify(model, img, DISEASE_CLASSES)
+            results = classify(classifier, img, DISEASE_CLASSES)
 
         # Display prediction results
         st.subheader("Diagnostic Probabilities:")
