@@ -134,7 +134,6 @@ flowchart TD
 ### Prerequisites
 | Requirement | Version |
 |-------------|---------|
-| macOS (Apple Silicon) | M1 / M2 / M3 |
 | Python | **3.11** ← required for TF‑Metal |
 | Git | any recent version |
 
