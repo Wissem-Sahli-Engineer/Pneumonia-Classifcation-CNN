@@ -22,7 +22,7 @@ file = st.file_uploader('',type=["jpeg","jpg","png","webp","svg","gif"])
 
 # Caching the model so Streamlit doesn't reload it on every button click
 MODEL_PATH_CLASSIFIER = "models/best_xray_model.keras"
-MODEL_PATH_DETECTOR = "models/chest_xray_detector.h5"
+MODEL_PATH_DETECTOR = "models/chest_xray_detector.keras"
 
 @st.cache_resource
 def load_my_model():
