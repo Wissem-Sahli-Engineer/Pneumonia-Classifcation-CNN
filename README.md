@@ -148,4 +148,4 @@ matplotlib==3.9.2
 
 ---
 
-*Built with ❤️ by *[Your Name]* – feel free to open issues, submit PRs, or ask questions!*
+*Built with ❤️ by *Wess* – feel free to open issues, submit PRs, or ask questions!*
