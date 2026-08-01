@@ -1,4 +1,4 @@
-# 🚀 Pneumonia Classification & Detection with Streamlit
+# 🫁 Lung Diseases Classification & Detection, Deep Learning Computer Vision
 
 > **A robust, end‑to‑end solution** that classifies chest‑X‑ray diseases and first verifies that the uploaded image is actually a chest X‑ray. Built with TensorFlow, Streamlit, and optimized for Apple Silicon via TensorFlow‑Metal.
 
